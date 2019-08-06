@@ -124,6 +124,7 @@ public class AuthController {
         //生成一个长度是5的随机字符串
         String code = VerifyCodeUtils.generateVerifyCode(5);
         ResponseResult responseResult = ResponseResult.getResponseResult();
+        //将随机字符串放入返回结果
         responseResult.setResult(code);
         String uidCode = "CODE" + UID.getUUID16();
         //将生成的随机字符串标识后存入redis
