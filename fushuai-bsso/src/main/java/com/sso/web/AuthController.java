@@ -30,6 +30,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
@@ -91,7 +92,7 @@ public class AuthController {
                     redisTemplate.opsForValue().set("USERINFO" + user.getId().toString(), token);
 
 //                    //将用户的权限信息存入缓存
-                    redisTemplate.opsForHash().putAll("USERDATAAUTH"+user.getId().toString(),user.getAuthmap());
+                    redisTemplate.opsForHash().putAll("USERDATAAUTH" + user.getId().toString(), user.getAuthmap());
 
                     //设置过期时间30分钟
                     redisTemplate.expire("USERINFO" + user.getId().toString(), 1800, TimeUnit.SECONDS);
@@ -144,4 +145,17 @@ public class AuthController {
 
 
     }
+
+
+    /**
+     * 用户全查
+     */
+    @RequestMapping("userList")
+    @ResponseBody
+    public List<UserInfo> userList() {
+        List<UserInfo> userList = userService.userList();
+        return userList;
+    }
+
+
 }

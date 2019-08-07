@@ -43,6 +43,7 @@ public class UserService {
     @Autowired
     private RoleDao roleDao;
 
+    //登陆时获取用户信息
     public UserInfo getUserByLogin(String loginName) {
         //获取用户信息
         UserInfo byLoginName = userDao.findByLoginName(loginName);
@@ -84,6 +85,15 @@ public class UserService {
         }
         return firstMenuInfo1;
     }
+
+
+    //全查
+    public List<UserInfo> userList(){
+        List<UserInfo> all = userDao.findAll();
+        return all;
+    }
+
+
 
 
 }
