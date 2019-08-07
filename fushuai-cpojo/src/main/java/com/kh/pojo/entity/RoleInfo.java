@@ -10,6 +10,7 @@
  */
 package com.kh.pojo.entity;
 
+import com.kh.pojo.base.BaseAuditable;
 import lombok.Data;
 
 import javax.persistence.Column;
@@ -27,7 +28,7 @@ import javax.persistence.Table;
 @Entity
 @Data
 @Table(name = "base_role")
-public class RoleInfo {
+public class RoleInfo extends BaseAuditable {
 
     @Column(name = "roleName")
     private String roleName;

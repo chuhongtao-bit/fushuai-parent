@@ -53,30 +53,31 @@ public class AuthController {
 
     /**
      * 登录操作
+     *
      * @param map
      */
     @ResponseBody
     @RequestMapping("login")
-    public ResponseResult toLogin (@RequestBody Map<String, Object> map) throws LoginException {
+    public ResponseResult toLogin(@RequestBody Map<String, Object> map) throws LoginException {
         ResponseResult responseResult = ResponseResult.getResponseResult();
 
         //获取生成的验证码
         String code = redisTemplate.opsForValue().get(map.get("codekey").toString());
 
         //传入的验证码是否与生成后存在redis中的一样
-        if(code==null||!code.equals(map.get("code").toString())){
+        if (code == null || !code.equals(map.get("code").toString())) {
             responseResult.setCode(500);
             responseResult.setError("验证码错误，请刷新页面登录");
             return responseResult;
         }
 
         //进行用户密码校验
-        if(map!=null&&map.get("loginname")!=null){
+        if (map != null && map.get("loginname") != null) {
             UserInfo user = userService.getUserByLogin(map.get("loginname").toString());
-            if(user!=null){
+            if (user != null) {
                 //对比密码
                 String password = MD5.encryptPassword(map.get("password").toString(), "kh");//盐用作进一步加密
-                if(user.getPassword().equals(password)){
+                if (user.getPassword().equals(password)) {
                     //将用户信息转化为字符串
                     String userinfo = JSON.toJSONString(user);
 
@@ -87,13 +88,13 @@ public class AuthController {
                     responseResult.setToken(token);
 
                     //将生成的token存到redis
-                    redisTemplate.opsForValue().set("USERINFO"+user.getId().toString(),token);
+                    redisTemplate.opsForValue().set("USERINFO" + user.getId().toString(), token);
 
 //                    //将用户的权限信息存入缓存
-//                    redisTemplate.opsForHash().putAll("USERDATAAUTH"+user.getId().toString(),user.getAuthmap());
+                    redisTemplate.opsForHash().putAll("USERDATAAUTH"+user.getId().toString(),user.getAuthmap());
 
                     //设置过期时间30分钟
-                    redisTemplate.expire("USERINFO"+user.getId().toString(),1800,TimeUnit.SECONDS);
+                    redisTemplate.expire("USERINFO" + user.getId().toString(), 1800, TimeUnit.SECONDS);
                     //设置返回值
                     responseResult.setResult(user);
                     responseResult.setCode(200);
@@ -102,13 +103,13 @@ public class AuthController {
 
                     return responseResult;
 
-                }else {
+                } else {
                     throw new LoginException("用户名或密码错误");
                 }
-            }else {
+            } else {
                 throw new LoginException("用户名或密码错误");
             }
-        }else {
+        } else {
             throw new LoginException("用户名或密码错误");
         }
     }

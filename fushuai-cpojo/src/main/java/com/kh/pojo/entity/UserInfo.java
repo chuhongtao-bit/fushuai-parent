@@ -13,11 +13,11 @@ package com.kh.pojo.entity;
 import com.kh.pojo.base.BaseAuditable;
 import lombok.Data;
 
-import javax.management.relation.RoleInfo;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 import javax.persistence.Transient;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -55,4 +55,10 @@ public class UserInfo extends BaseAuditable {
     // 就要使用@Transient这个注解了。
     @Transient
     private Map<String,String> authmap;
+
+    @Transient
+    private List<MenuInfo> listMenuInfo;
+
+    @Transient
+    private RoleInfo roleInfo;
 }
