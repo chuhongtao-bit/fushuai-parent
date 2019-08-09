@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.manager.dao.UserMapper">
+    <select id="userList" resultType="UserInfo">
+        SELECT bu.*,br.roleName FROM base_user bu LEFT JOIN base_user_role bur ON bu.id = bur.userId LEFT JOIN base_role br ON
+        br.id = bur.roleId
+        <where>
+            <if test="data1!='' and data2!=''">
+                and createTime&gt;=#{data1} and dt &lt;=#{data2}
+            </if>
+            <if test="data1=='' and data2!=''">
+                and  createTime &lt;=#{data2}
+            </if>
+            <if test="data1!='' and data2==''">
+                and createTime&gt;=#{data1}
+            </if>
+
+            <if test="sex!=''">
+                and sex =${sex}
+            </if>
+            <if test="userName!=''">
+                and userName like '%${userName}%'
+            </if>
+        </where>
+    </select>
+</mapper>
