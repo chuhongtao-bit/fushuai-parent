@@ -18,7 +18,6 @@ import com.kh.pojo.entity.UserInfo;
 import com.kh.random.VerifyCodeUtils;
 import com.kh.utils.MD5;
 import com.kh.utils.UID;
-import com.sso.dao.UserDao;
 import com.sso.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -30,7 +29,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.List;
+
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
@@ -51,6 +50,7 @@ public class AuthController {
 
     @Autowired
     private UserService userService;
+
 
     /**
      * 登录操作
@@ -147,15 +147,6 @@ public class AuthController {
     }
 
 
-    /**
-     * 用户全查
-     */
-    @RequestMapping("userList")
-    @ResponseBody
-    public List<UserInfo> userList() {
-        List<UserInfo> userList = userService.userList();
-        return userList;
-    }
 
 
 }

@@ -10,6 +10,9 @@
  */
 package com.kh.pojo.base;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import lombok.Data;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
@@ -24,7 +27,7 @@ import java.util.Date;
  * @author 康鸿
  * @create 2019/8/5
  * @since 1.0.0
- * Description 
+ * Description
  */
 //可以将该实体类当成基类实体，它不会隐射到数据库表，
 // 但继承它的子类实体在隐射时会自动扫描该基类实体的隐射属性，
@@ -33,16 +36,19 @@ import java.util.Date;
 @EntityListeners(AuditingEntityListener.class)
 @Data
 public abstract class BaseAuditable {
-    @Column(name="id")
+    @Column(name = "id")
     @Id
+    @JsonSerialize(using = ToStringSerializer.class)
     Long id;
 
     @LastModifiedDate
-    @Column(name="updateTime")
+    @JsonFormat(pattern = "yyyy-MM-dd")
+    @Column(name = "updateTime")
     Date updateTime;
 
     @CreatedDate
-    @Column(name="createTime")
+    @JsonFormat(pattern = "yyyy-MM-dd")
+    @Column(name = "createTime")
     Date createTime;
 
     @Version

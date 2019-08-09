@@ -10,13 +10,16 @@
  */
 package com.kh.pojo.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.kh.pojo.base.BaseAuditable;
 import lombok.Data;
+import org.springframework.data.annotation.CreatedDate;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 import javax.persistence.Transient;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -26,7 +29,7 @@ import java.util.Map;
  * @author 康鸿
  * @create 2019/8/5
  * @since 1.0.0
- * Description 
+ * Description
  */
 @Data
 @Entity
@@ -51,10 +54,14 @@ public class UserInfo extends BaseAuditable {
     @Column(name = "parentId")
     private Long parentId;
 
+    @Transient
+    private String roleName;
+
+
     //实体类中使用了@Table注解后，想要添加表中不存在的字段，
     // 就要使用@Transient这个注解了。
     @Transient
-    private Map<String,String> authmap;
+    private Map<String, String> authmap;
 
     @Transient
     private List<MenuInfo> listMenuInfo;

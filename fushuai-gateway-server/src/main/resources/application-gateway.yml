@@ -7,7 +7,7 @@ spring:
            predicates:
            - Path=/api/manger/**
            #- Method=POST
-           #- Cookie=test, yyyy
+           - Cookie=authcode, (.*)
            #- Header=token,(.*) #表示任意的字符
            filters: #表示去掉api前缀
              - StripPrefix=2

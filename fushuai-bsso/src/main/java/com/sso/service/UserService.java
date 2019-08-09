@@ -87,13 +87,5 @@ public class UserService {
     }
 
 
-    //全查
-    public List<UserInfo> userList(){
-        List<UserInfo> all = userDao.findAll();
-        return all;
-    }
-
-
-
 
 }
