@@ -1,8 +1,8 @@
 /**
  * Copyright (C), 2015-2019, XXX有限公司
- * FileName: UserService
+ * FileName: RoleServer
  * Author:   康鸿
- * Date:     2019/8/5 19:31
+ * Date:     2019/8/9 11:01
  * Description: TODO
  * History:
  * <author>          <time>          <version>          <desc>
@@ -10,29 +10,26 @@
  */
 package com.manager.service;
 
-import com.kh.pojo.entity.MenuInfo;
 import com.kh.pojo.entity.RoleInfo;
-import com.kh.pojo.entity.UserInfo;
-
-import com.kh.pojo.entity.UserRoleInfo;
 import com.manager.dao.MenuDao;
 import com.manager.dao.RoleDao;
 import com.manager.dao.UserDao;
-import com.manager.dao.UserRoleDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 
 /**
  * Description: TODO
  *
  * @author 康鸿
- * @create 2019/8/5
+ * @create 2019/8/9
  * @since 1.0.0
  * Description
  */
 @Service
-public class UserService {
+public class RoleService {
+
     @Autowired
     private UserDao userDao;
 
@@ -42,27 +39,23 @@ public class UserService {
     @Autowired
     private RoleDao roleDao;
 
-
-
-
-    //通过id删除用户
-    public int deleteUserById(Long id) {
-        userDao.deleteById(id);
+    //角色删除
+    public int deleteRoleById(Long id) {
+        roleDao.deleteById(id);
         return 200;
     }
 
-    //增加用户
-    public int addUser(UserInfo userInfo){
-        userDao.save(userInfo);
+    //角色添加
+    public int addRole(RoleInfo r) {
+        roleDao.save(r);
         return 200;
     }
 
-    //修改用户
-    public int updateUser(UserInfo userInfo){
-        userDao.save(userInfo);
-        return 200;
+    //角色添加
+    public List<RoleInfo> bdrolelist() {
+        List<RoleInfo> bdrolelist = roleDao.findAll();
+        return bdrolelist;
     }
-
 
 
 

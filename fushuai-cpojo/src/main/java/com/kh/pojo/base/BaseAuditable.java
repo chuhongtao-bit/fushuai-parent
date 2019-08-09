@@ -42,12 +42,12 @@ public abstract class BaseAuditable {
     Long id;
 
     @LastModifiedDate
-    @JsonFormat(pattern = "yyyy-MM-dd")
+    @JsonFormat(pattern = "yyyy-MM-dd",timezone ="GMT+8")
     @Column(name = "updateTime")
     Date updateTime;
 
     @CreatedDate
-    @JsonFormat(pattern = "yyyy-MM-dd")
+    @JsonFormat(pattern = "yyyy-MM-dd",timezone ="GMT+8")
     @Column(name = "createTime")
     Date createTime;
 

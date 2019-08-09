@@ -6,20 +6,20 @@
         br.id = bur.roleId
         <where>
             <if test="data1!='' and data2!=''">
-                and createTime&gt;=#{data1} and dt &lt;=#{data2}
+                and bu.createTime&gt;=#{data1} and bu.createTime &lt;=#{data2}
             </if>
             <if test="data1=='' and data2!=''">
-                and  createTime &lt;=#{data2}
+                and  bu.createTime &lt;=#{data2}
             </if>
             <if test="data1!='' and data2==''">
-                and createTime&gt;=#{data1}
+                and bu.createTime&gt;=#{data1}
             </if>
 
             <if test="sex!=''">
-                and sex =${sex}
+                and bu.sex =${sex}
             </if>
             <if test="userName!=''">
-                and userName like '%${userName}%'
+                and bu.userName like '%${userName}%'
             </if>
         </where>
     </select>
