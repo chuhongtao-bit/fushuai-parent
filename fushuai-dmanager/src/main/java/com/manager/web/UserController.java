@@ -10,15 +10,13 @@
  */
 package com.manager.web;
 
-import com.github.pagehelper.PageInfo;
-import com.kh.pojo.ResponseResult;
 import com.kh.pojo.entity.RoleInfo;
 import com.kh.pojo.entity.UserInfo;
 import com.kh.pojo.entity.UserRoleInfo;
 import com.kh.utils.MD5;
 import com.kh.utils.TwitterIdWorker;
 import com.manager.service.RoleService;
-import com.manager.service.UserMapperServerImpl;
+
 import com.manager.service.UserRoleService;
 import com.manager.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -54,16 +52,13 @@ public class UserController {
     @Autowired
     private UserRoleService userRoleService;
 
-    @Autowired
-    private UserMapperServerImpl userMapperServerImpl;
-
     /**
      * 用户全查
      */
     @RequestMapping("userList")
     @ResponseBody
-    public PageInfo<UserInfo> userList(@RequestBody Map<String, String> info) {
-        ResponseResult responseResult = ResponseResult.getResponseResult();
+    public Object userList(@RequestBody Map<String, String> info) {
+
         Integer page = Integer.parseInt(info.get("page"));
         Integer pageSize = Integer.parseInt(info.get("pageSize"));
         String data1 = info.get("data1");
@@ -74,12 +69,7 @@ public class UserController {
         System.out.println(data1 + "     ==========data1");
         System.out.println(data2 + "     ==========data2");
 
-        //查
-        PageInfo<UserInfo> pageInfo = userMapperServerImpl.selectAll(page, pageSize, data1, data2, sex, name);
-        //将信息放入返回值
-        responseResult.setResult(pageInfo);
-        System.out.println(responseResult.getResult());
-        return pageInfo;
+        return userService.userList(page, pageSize, data1, data2, sex, name);
     }
 
 
