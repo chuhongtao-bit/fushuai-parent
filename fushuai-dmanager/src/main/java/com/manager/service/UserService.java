@@ -58,26 +58,34 @@ public class UserService {
         StringBuffer stringBufferCount = new StringBuffer("select count(1) from base_user where 1=1");
 
         if (userName != null && !userName.equals("")) {
-
+            //区间查询
             stringBuffer.append(" and userName like concat('%','" + userName + "','%')");
+            //总条数
             stringBufferCount.append(" and userName like concat('%','" + userName + "','%')");
         }
         if ((data1 != null && !data1.equals("")) && (data2.equals("") || data2 == null)) {
+            //区间查询
             stringBuffer.append(" and createTime > '" + data1 + "' ");
+            //总条数
             stringBufferCount.append(" and createTime > '" + data1 + "' ");
         }
         if ((data1.equals("") || data1 == null) && (data2 != null && !data2.equals(""))) {
+            //区间查询
             stringBuffer.append(" and createTime < '" + data2 + "' ");
+            //总条数
             stringBufferCount.append(" and createTime < '" + data2 + "' ");
         }
 
         if ((data1 != null && !data1.equals("")) && (data2 != null && !data2.equals(""))) {
+            //区间查询
             stringBuffer.append(" and createTime between '" + data1 + "' and '" + data2 + "'");
+            //总条数
             stringBufferCount.append(" and createTime between '" + data1 + "' and '" + data2 + "' ");
         }
         if (sex != null && !sex.equals("")) {
-
+            //区间查询
             stringBuffer.append(" and sex=" + sex);
+            //总条数
             stringBufferCount.append(" and sex=" + sex);
         }
 
