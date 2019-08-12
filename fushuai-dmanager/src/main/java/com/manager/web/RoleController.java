@@ -115,7 +115,7 @@ public class RoleController {
 
     @Autowired
     JdbcTemplate jdbcTemplate;
-
+//角色绑定权限
     @RequestMapping("/addRm")
     @Transactional
     @ResponseBody
@@ -129,6 +129,7 @@ public class RoleController {
 
             String[] ids = roleInfo.getIds();
             if(ids!=null&&!ids.equals("")) {
+                //中间表添加权限
                 String sql="insert into base_role_menu(id,roleId,menuId) values(?,?,?)";
                 List<Object[]>list=new ArrayList<>();
                 TwitterIdWorker twitterIdWorker = new TwitterIdWorker();
