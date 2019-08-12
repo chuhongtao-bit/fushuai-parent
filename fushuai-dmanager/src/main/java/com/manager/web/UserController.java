@@ -16,7 +16,6 @@ import com.kh.pojo.entity.UserRoleInfo;
 import com.kh.utils.MD5;
 import com.kh.utils.TwitterIdWorker;
 import com.manager.service.RoleService;
-
 import com.manager.service.UserRoleService;
 import com.manager.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,7 +24,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
-
 import java.util.List;
 import java.util.Map;
 
@@ -87,17 +85,24 @@ public class UserController {
     @RequestMapping("addUser")
     @ResponseBody
     public int addUser(@RequestBody UserInfo userInfo) {
-        //设置id为雪花id
-        TwitterIdWorker twitterIdWorker = new TwitterIdWorker();
-        long id = twitterIdWorker.nextId();
-        userInfo.setId(id);
-        //密码加密
-        String password = MD5.encryptPassword(userInfo.getPassword(), "kh");
-        userInfo.setPassword(password);
+        UserInfo userInfo1 = userService.selectUserByLoginName(userInfo.getLoginName());
+        if(userInfo1!=null){
+            return 505;
+        }else {
+            //设置id为雪花id
+            TwitterIdWorker twitterIdWorker = new TwitterIdWorker();
+            long id = twitterIdWorker.nextId();
+            userInfo.setId(id);
+            //密码加密
+            String password = MD5.encryptPassword(userInfo.getPassword(), "kh");
+            userInfo.setPassword(password);
 
-        int i = userService.addUser(userInfo);
-        return i;
+            int i = userService.addUser(userInfo);
+            return i;
+        }
     }
+
+
 
     //修改
     @RequestMapping("updateUser")
