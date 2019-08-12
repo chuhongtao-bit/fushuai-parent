@@ -52,11 +52,10 @@ public class AuthController {
     private UserService userService;
 
 
-    /**
-     * 登录操作
-     *
-     * @param map
-     */
+
+
+
+    //      登录操作
     @ResponseBody
     @RequestMapping("login")
     public ResponseResult toLogin(@RequestBody Map<String, Object> map) throws LoginException {
@@ -91,7 +90,7 @@ public class AuthController {
                     //将生成的token存到redis
                     redisTemplate.opsForValue().set("USERINFO" + user.getId().toString(), token);
 
-//                    //将用户的权限信息存入缓存
+                   //将用户的权限信息存入缓存
                     redisTemplate.opsForHash().putAll("USERDATAAUTH" + user.getId().toString(), user.getAuthmap());
 
                     //设置过期时间30分钟
@@ -116,9 +115,9 @@ public class AuthController {
     }
 
 
-    /**
-     * 滑动获取验证码
-     */
+
+//      滑动获取验证码
+
     @RequestMapping("getCode")
     @ResponseBody
     public ResponseResult getCode(HttpServletRequest request, HttpServletResponse response) {
@@ -143,9 +142,23 @@ public class AuthController {
 
         return responseResult;
 
-
     }
 
+
+
+    //退出
+    @RequestMapping("loginout")
+    @ResponseBody
+    public ResponseResult  loginout(@RequestBody Map<String,Object> map){
+        ResponseResult responseResult=ResponseResult.getResponseResult();
+        //删除权限redis
+        redisTemplate.delete("USERDATAAUTH"+map.get("id").toString());
+        //删除用户redis
+        redisTemplate.delete("USERINFO"+map.get("id").toString());
+
+        responseResult.setSuccess("ok");
+        return responseResult;
+    }
 
 
 
