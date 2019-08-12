@@ -138,5 +138,11 @@ public class UserService {
         return 200;
     }
 
+    //根据登录名查找用户做唯一验证
+
+    public UserInfo selectUserByLoginName(String loginName) {
+        UserInfo byLoginName = userDao.findByLoginName(loginName);
+        return byLoginName;
+    }
 
 }
