@@ -11,13 +11,19 @@
 package com.manager.service;
 
 import com.kh.pojo.entity.RoleInfo;
+import com.kh.pojo.entity.UserInfo;
 import com.manager.dao.MenuDao;
 import com.manager.dao.RoleDao;
 import com.manager.dao.UserDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Description: TODO
@@ -39,6 +45,58 @@ public class RoleService {
     @Autowired
     private RoleDao roleDao;
 
+    @PersistenceContext
+    EntityManager entityManager;
+
+
+    public Object roleList(Integer page, Integer pageSize, String roleName) {
+
+        //查询
+        StringBuffer stringBuffer = new StringBuffer("select * from base_role where 1=1");
+        //总条数
+        StringBuffer stringBufferCount = new StringBuffer("select count(1) from base_role where 1=1");
+
+        if (roleName != null && !roleName.equals("")) {
+            //区间查询
+            stringBuffer.append(" and roleName like concat('%','" + roleName + "','%')");
+            //总条数
+            stringBufferCount.append(" and roleName like concat('%','" + roleName + "','%')");
+        }
+        stringBuffer.append(" limit " + (page - 1) * pageSize + "," + pageSize);
+
+        System.out.println("stringBuffer=" + stringBuffer);
+        System.out.println("stringBufferCount=" + stringBufferCount);
+        //清一下缓存
+        entityManager.clear();
+        //查列表
+        Query nativeQuery = entityManager.createNativeQuery(stringBuffer.toString(), RoleInfo.class);
+
+
+        //总条数
+        Query nativeQueryCount = entityManager.createNativeQuery(stringBufferCount.toString());
+
+        //查用户
+        List<RoleInfo> resultList = nativeQuery.getResultList();
+        if (resultList != null && resultList.size() > 0) {
+            for (RoleInfo roleInfo : resultList) {
+                List<UserInfo> userInfos = userDao.forUserInfoByUserId(roleInfo.getId());
+                roleInfo.setUserInfos(userInfos);
+                roleInfo.setMenuInfoList(menuDao.getRoleMenuInfo(roleInfo.getId()));
+
+            }
+        }
+
+        Map<String, Object> map = new HashMap<String, Object>();
+
+
+        //用户信息
+        map.put("content", resultList);
+        map.put("totalElements", nativeQueryCount.getSingleResult());
+        return map;
+
+    }
+
+
     //角色删除
     public int deleteRoleById(Long id) {
         roleDao.deleteById(id);
@@ -56,7 +114,6 @@ public class RoleService {
         List<RoleInfo> bdrolelist = roleDao.findAll();
         return bdrolelist;
     }
-
 
 
 }

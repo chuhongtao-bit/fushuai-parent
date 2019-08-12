@@ -16,6 +16,8 @@ import lombok.Data;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
+import javax.persistence.Transient;
+import java.util.List;
 
 /**
  * Description: TODO
@@ -34,4 +36,10 @@ public class RoleInfo extends BaseAuditable {
     private String roleName;
     @Column(name = "miaoShu")
     private String miaoShu;
+    @Transient
+    private List<UserInfo> userInfos;
+    @Transient
+    private List<MenuInfo> menuInfoList;
+    @Transient
+    private String ids[];
 }
